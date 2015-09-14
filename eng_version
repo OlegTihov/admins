@@ -1,0 +1,37 @@
+//--------------------------------
+// Script to view the list of Administrations online
+// Skype: dev.oleg
+// 14.09.15
+//--------------------------------
+#include <a_samp>
+
+public OnPlayerCommandText(playerid, cmdtext[])
+{
+	if(strcmp("/admins", cmdtext, true, 10) == 0)
+	{
+	    new string[256];
+//	    if(PlayerInfo[playerid][pVip] == 0 && !IsPlayerAdmin(playerid)) return SendClientMesage(playerid,-1,"You do not have permission to use this command.");
+	    new wat = 0;
+	    new sendername[24];
+		SendClientMessage(playerid,0xFFFF00FF,"Administration of the network:");
+		for(new i = 0; i < MAX_PLAYERS; i++)//The cycle for all players
+        {
+			if(IsPlayerConnected(i) && IsPlayerAdmin(i))//Put your condition
+			{
+			    GetPlayerName(i,sendername,sizeof(sendername));
+				wat++;
+				format(string, sizeof(string), "%d. {FFC000}%s | ID: %d",wat, sendername, i);
+				SendClientMessage(playerid, 0xFF0000FF, string);
+			}
+		}
+		if(wat == 0)
+		{
+		    SendClientMessage(playerid, -1, " Administration is not present in the network.");
+		    return 1;
+		}
+		format(string, sizeof(string), " Administrators on the network: {00FF00}%d", wat);
+		SendClientMessage(playerid, -1, string);
+		return 1;
+	}
+	return 1;
+}
